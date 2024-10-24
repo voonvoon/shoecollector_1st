@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
+import config from "./config";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  env: {
+    DB_URI: config.DB_URI,
+    API: config.API,
+  },
 };
 
 export default nextConfig;
