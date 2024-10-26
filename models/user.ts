@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
         expiresAt: {
           type: Date,
           default: () => Date.now() + 30 * 60 * 1000, // Valid for 30 min only
-          index: { expires: '30m' }, // MongoDB will automatically delete the document after 30 minutes
+          //index: { expires: '30m' }, // MongoDB will automatically delete the document after 30 minutes
         },
       },
       
