@@ -4,11 +4,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { GiRunningShoe } from "react-icons/gi";
 import { IoMenu } from "react-icons/io5";
+import { UserType } from "@/types/userTypes";
 
 import { useSession, signOut } from "next-auth/react";
 
+
 const Navbar = () => {
   const { data, status } = useSession();
+  const user = data?.user as UserType;  // Use type assertion to specify User type
   console.log("login Status", { data, status });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -45,7 +48,7 @@ const Navbar = () => {
                   href="/dashboard/user"
                   className="rounded-md px-1 py-2 text-sm  text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
-                  {data?.user?.name}
+                  {user?.name} ({user?.role})
                 </Link>
                 <a
                   className="cursor-pointer rounded-md px-1 py-2 text-sm  text-gray-300 hover:bg-gray-700 hover:text-white"
