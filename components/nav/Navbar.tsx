@@ -4,11 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import { GiRunningShoe } from "react-icons/gi";
 import { IoMenu } from "react-icons/io5";
+import { UserType } from "@/types/userTypes";
+//import { auth } from "@/auth";
 
 import { useSession, signOut } from "next-auth/react";
 
 const Navbar = () => {
+  //const session = await auth();
+
   const { data, status } = useSession();
+  const user = data?.user as UserType; // Use type assertion to specify User type
   console.log("login Status", { data, status });
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,6 +32,8 @@ const Navbar = () => {
                 <GiRunningShoe size={30} color="white" />
                 <span className="text-xs text-white mt-1">Shoe Collector</span>
               </Link>
+              <Link className="text-white m-2" href="/middlewarepage">Middleware</Link>
+              <Link className="text-white" href="/server">Server</Link>
             </div>
           </div>
           <div className="absolute right-0 flex items-center ">
@@ -42,10 +49,12 @@ const Navbar = () => {
             {status === "authenticated" ? (
               <>
                 <Link
-                  href="/dashboard/user"
+                  href={`/dashboard/${
+                    user?.role === "admin" ? "admin" : "user"
+                  }`}
                   className="rounded-md px-1 py-2 text-sm  text-gray-300 hover:bg-gray-700 hover:text-white"
                 >
-                  {data?.user?.name}
+                  {user?.name} ({user?.role})
                 </Link>
                 <a
                   className="cursor-pointer rounded-md px-1 py-2 text-sm  text-gray-300 hover:bg-gray-700 hover:text-white"

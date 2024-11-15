@@ -3,8 +3,9 @@
 import { FormEvent, useState } from "react";
 //FormEvent is generic type represents any event that occurs in a form element (like submit, input, or change events).
 //provide type safety by letting TS know that e is specifically a form-related event.
-import toast from "react-hot-toast"; //npm i react-hot-toast --legacy-peer-deps -- try this cuz tis npm not ready for react19 yet!
+//import toast from "react-hot-toast"; //npm i react-hot-toast --legacy-peer-deps -- try this cuz tis npm not ready for react19 yet!
 import { useRouter } from "next/navigation";
+
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -17,7 +18,7 @@ const Register = () => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     //e: FormEvent<HTMLFormElement>, you're telling TypeScript:
     //"This event handler is handling a form event, specifically on an HTML form element."
-    e.preventDefault(); // so page doesn't reload 
+    e.preventDefault(); // so page doesn't reload
     try {
       setLoading(true);
       //console.log(name, email,password);
@@ -26,7 +27,7 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, email, password }), 
+        body: JSON.stringify({ name, email, password }),
         //use JSON.stringify else error cuz sending obj:
         //1.Converts Object to JSON String, cuz APIs expect that when receiving data.
         //before ={ name: "John", email: "john@example.com", password: "securePassword" }
@@ -36,11 +37,11 @@ const Register = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(data.error);
+        //toast.error(data.error);
         setLoading(false);
       } else {
-        toast.success(data.success);
-        router.push("/user-login");
+        //toast.success(data.success);
+        router.push("/login");
       }
     } catch (err) {
       console.log(err);

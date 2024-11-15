@@ -1,15 +1,21 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import toast from "react-hot-toast";
+//import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { signIn } from "next-auth/react";  // use tis in client side so i can freely redirect user by using router.
+//import { signIn } from "@/auth";
+import { login } from "@/actions/auth";
+import { IoLogoGoogle } from "react-icons/io5";
 //import Link from "next/link";
 //import { IoLogoGoogle } from "react-icons/io5";
 //import { CiUser } from "react-icons/ci";
 
+//import LoginForm from "@/components/loginForm";
+
+
 export default function Login() {
-  const [email, setEmail] = useState("testing@gmail.com");
+  const [email, setEmail] = useState("test@gmail.com");
   const [password, setPassword] = useState("123321");
   const [loading, setLoading] = useState(false);
 
@@ -21,17 +27,20 @@ export default function Login() {
     e.preventDefault();
     try {
       setLoading(true);
+
       const result = await signIn("credentials", {
         redirect: false, // redirect to pg we want after we get the result!
         email,
         password,
       });
 
+      //const result = await loginWithCreds({email, password});
+
       if (result?.error) {
-        toast.error(result?.error);
+        //toast.error(result?.error);
         setLoading(false);
       } else {
-        toast.success("Logged in successfully🎉!");
+        //toast.success("Logged in successfully🎉!");
         //router.push("/");
         router.push(callbackUrl);
       }
@@ -69,6 +78,26 @@ export default function Login() {
             {loading ? "Loading..." : "Login"}
           </button>
         </form>
+
+        {/* <button
+          className="flex items-center justify-center relative h-12 overflow-hidden rounded-full border-0 bg-[#374151] bg-opacity-100 py-2.5 px-8 text-white text-opacity-100 no-underline hover:no-underline transition-colors duration-300 hover:text-gray-200 mt-6 shadow-md hover:bg-opacity-90 w-full"
+          onClick={() => signIn("google", { callbackUrl })}
+        >
+          <div className="flex items-center justify-center">
+            Sign In With Google <IoLogoGoogle className="ml-1" />
+          </div>
+        </button> */}
+
+        {/* <LoginForm /> */}
+
+        <button
+          className="flex items-center justify-center relative h-12 overflow-hidden rounded-full border-0 bg-[#374151] bg-opacity-100 py-2.5 px-8 text-white text-opacity-100 no-underline hover:no-underline transition-colors duration-300 hover:text-gray-200 mt-6 shadow-md hover:bg-opacity-90 w-full"
+          onClick={() => login("google")}
+        >
+          <div className="flex items-center justify-center">
+            Sign In With Google <IoLogoGoogle className="ml-1" />
+          </div>
+        </button>
       </div>
     </main>
   );

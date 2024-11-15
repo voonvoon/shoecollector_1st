@@ -1,13 +1,13 @@
-'use client'; // don't worry, the children props if is server component there are still same!
+//'use client'; // don't worry, the children props if is server component there are still same!
 
 //import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { Toaster } from "react-hot-toast";
+import Navbar from "@/components/nav/Navbar";
+//import { Toaster } from "react-hot-toast";
 //import { GiRunningShoe } from "react-icons/gi";
-
-import { SessionProvider } from "next-auth/react";  // after wrap the app , can access the login information!
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react"; // after wrap the app , can access the login information!
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,18 +29,19 @@ const geistMono = localFont({
 //   },
 // };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
     <html lang="en">
-      <SessionProvider>
+      <SessionProvider session={session}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`} //antialiased: smooths out the edges of the characters, making them look cleaner and more visually appealing. It's often used in web applications to enhance text readability.
         >
-          <Toaster />
+          {/* <Toaster /> */}
           <Navbar />
           {children}
         </body>

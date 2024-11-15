@@ -1,13 +1,10 @@
 //export { auth as middleware } from "@/auth";
-//import { auth } from "@/auth";
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import authConfig from "./auth.config";
-import NextAuth from "next-auth";
+import { auth } from "@/auth";
 
-const { auth } = NextAuth(authConfig);
-
-const protectedRoutes = ["/middlewarepage"];
+const protectedRoutes = ["/middleware"];
 
 export default async function middleware(request: NextRequest) {
   const session = await auth();
@@ -21,14 +18,14 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.redirect(absoluteURL.toString());
   }
 
+
+
   return NextResponse.next();
 }
 
 export const config = {
-  //runtime: "experimental-edge",
   matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-  //matches:['/((?!.+\\.[\\w]+$|_next).*)','/','/(api|trpc)(.*)'],
-  //matcher: [ "/dashboard/:path*", "/api/user/:path*", "/api/admin/:path*"],
+  //matcher: ["/dashboard/:path*", "/api/user/:path*", "/api/admin/:path*"],
 };
 
 // import { NextResponse } from "next/server"; // Used to handle server responses

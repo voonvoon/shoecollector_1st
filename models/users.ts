@@ -48,5 +48,6 @@ const userSchema = new mongoose.Schema(
 
 userSchema.plugin(uniqueValidator, "is already taken!"); // so mongo will give us error msg , and we can send to client
 
+console.log("Creating or retrieving the User model...");
 export default mongoose.models.User || mongoose.model("User", userSchema);
 // if it already exist we export that || we going to create
